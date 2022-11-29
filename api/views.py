@@ -18,9 +18,8 @@ from eventos.serializers import DatosSeleccionAlarmas
 from eventos.serializers import EventoEjeSerializer, CirculacionEjeSerializer, CambioSerializer, OperacionCambioSerializer
 from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSerializer
 # mantenimientos
-from mantenimiento.logicas import filtrar_intervenciones_eje, filtrar_intervenciones_vagon
+from mantenimiento.logicas import filtrar_intervenciones_eje, filtrar_intervenciones_vehiculo
 from mantenimiento.serializers import DatosMantenimientoEje, DatosMantenimientoVehiculo
-
 
 # ACCESOS API PARA ENTREGAR INFORMACIÓN DE MERCAVE AL FRONTEND (HECHO EN REACT)
 
@@ -166,13 +165,11 @@ def MantenimientosVehiculo(request):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     rango = request.data['rango']
     id_vehiculo = request.data['id_vehiculo']
-    intervenciones_vagon = filtrar_intervenciones_vagon(rango, id_vehiculo)
+    intervenciones_vehiculo = filtrar_intervenciones_vehiculo(rango, id_vehiculo)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    serializer = DatosMantenimientoVehiculo(id_vehiculo, intervenciones_vagon)
+    serializer = DatosMantenimientoVehiculo(id_vehiculo, intervenciones_vehiculo)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)
-
-
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # CAMBIADORES

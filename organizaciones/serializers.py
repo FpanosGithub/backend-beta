@@ -3,10 +3,10 @@ from rest_framework import serializers
 
 from organizaciones.models import Organizacion, Diseñador, Fabricante, LicenciaFabricacion, EEM
 from organizaciones.models import Keeper, Owner, Aprovador, Certificador
-from ingenieria.models import TipoEje, VersionCambiador
+from ingenieria.models import TipoEje, TipoVehiculo, VersionCambiador
+from ingenieria.serializers import TipoVehiculoSerializer, TipoEjeSerializer, VersionCambiadorSerializer
 from red_ferroviaria.models import Cambiador
-from ingenieria.serializers import VersionEjeSerializer, VersionCambiadorSerializer
-from material.serializers import ModeloVagonSerializer, CambiadorSerializer
+from red_ferroviaria.serializers import CambiadorSerializer
 
 class DatosSeleccionActores ():
     def __init__(self):
@@ -18,8 +18,8 @@ class DatosSeleccionActores ():
         query_owners = Owner.objects.all()
         #aprovadores = Aprovador.objects.all()
         #certificadores = Certificador.objects.all()
-        query_versiones_ejes = VersionEje.objects.all()
-        query_modelos_vagones = ModeloVagon.objects.all()
+        query_tipos_ejes = TipoEje.objects.all()
+        #query_tipos_vehiculos = TipoVehiculo.objects.all()
         query_versiones_cambiadores = VersionCambiador.objects.all()
         query_cambiadores = Cambiador.objects.all()
 
@@ -28,8 +28,8 @@ class DatosSeleccionActores ():
         keepers = KeeperSerializer(query_keepers, many= True)
         fabricantes = FabricanteSerializer(query_fabricantes, many= True)
         EEMs = EEMSerializer(query_EEMs, many= True)
-        versiones_ejes = VersionEjeSerializer(query_versiones_ejes, many= True)
-        modelos_vagones = ModeloVagonSerializer(query_modelos_vagones, many= True)
+        tipos_ejes = TipoEjeSerializer(query_tipos_ejes, many= True)
+        #tipos_vehiculos = TipoVehiculoSerializer(query_tipos_vehiculos, many= True)
         versiones_cambiadores = VersionCambiadorSerializer(query_versiones_cambiadores, many= True)
         cambiadores = CambiadorSerializer(query_cambiadores, many= True)
 
@@ -38,8 +38,8 @@ class DatosSeleccionActores ():
                         'keepers':keepers.data,
                         'fabricantes':fabricantes.data,
                         'EEMs':EEMs.data,
-                        'versiones_ejes':versiones_ejes.data,
-                        'modelos_vagones':modelos_vagones.data,
+                        'versiones_ejes':tipos_ejes.data,
+                        #'modelos_vehiculos':tipos_vehiculos.data,
                         'versiones_cambiadores':versiones_cambiadores.data,
                         'cambiadores':cambiadores.data,
         }
