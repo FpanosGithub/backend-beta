@@ -43,13 +43,9 @@ def Alarmas(request):
     serializer = DatosSeleccionAlarmas()
     return Response(serializer.data)
 
-
-
-
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # EJES
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 # api/ejes
 @api_view(['POST'])
 @permission_classes([AllowAny])

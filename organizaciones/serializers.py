@@ -4,7 +4,7 @@ from rest_framework import serializers
 from organizaciones.models import Organizacion, Diseñador, Fabricante, LicenciaFabricacion, EEM
 from organizaciones.models import Keeper, Owner, Aprovador, Certificador
 from ingenieria.models import TipoEje, TipoVehiculo, VersionCambiador
-from ingenieria.serializers import TipoVehiculoSerializer, TipoEjeSerializer, VersionCambiadorSerializer
+from ingenieria.serializers import TipoVehiculoMinimoSerializer, TipoEjeMinimoSerializer, VersionCambiadorMinimoSerializer
 from red_ferroviaria.models import Cambiador
 from red_ferroviaria.serializers import CambiadorSerializer
 
@@ -19,18 +19,17 @@ class DatosSeleccionActores ():
         #aprovadores = Aprovador.objects.all()
         #certificadores = Certificador.objects.all()
         query_tipos_ejes = TipoEje.objects.all()
-        #query_tipos_vehiculos = TipoVehiculo.objects.all()
+        query_tipos_vehiculos = TipoVehiculo.objects.all()
         query_versiones_cambiadores = VersionCambiador.objects.all()
         query_cambiadores = Cambiador.objects.all()
-
 
         owners = OwnerSerializer(query_owners, many= True)
         keepers = KeeperSerializer(query_keepers, many= True)
         fabricantes = FabricanteSerializer(query_fabricantes, many= True)
         EEMs = EEMSerializer(query_EEMs, many= True)
-        tipos_ejes = TipoEjeSerializer(query_tipos_ejes, many= True)
-        #tipos_vehiculos = TipoVehiculoSerializer(query_tipos_vehiculos, many= True)
-        versiones_cambiadores = VersionCambiadorSerializer(query_versiones_cambiadores, many= True)
+        tipos_ejes = TipoEjeMinimoSerializer(query_tipos_ejes, many= True)
+        tipos_vehiculos = TipoVehiculoMinimoSerializer(query_tipos_vehiculos, many= True)
+        versiones_cambiadores = VersionCambiadorMinimoSerializer(query_versiones_cambiadores, many= True)
         cambiadores = CambiadorSerializer(query_cambiadores, many= True)
 
 
@@ -38,8 +37,8 @@ class DatosSeleccionActores ():
                         'keepers':keepers.data,
                         'fabricantes':fabricantes.data,
                         'EEMs':EEMs.data,
-                        'versiones_ejes':tipos_ejes.data,
-                        #'modelos_vehiculos':tipos_vehiculos.data,
+                        'tipos_ejes':tipos_ejes.data,
+                        'tipos_vehiculos':tipos_vehiculos.data,
                         'versiones_cambiadores':versiones_cambiadores.data,
                         'cambiadores':cambiadores.data,
         }

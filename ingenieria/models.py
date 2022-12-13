@@ -11,7 +11,7 @@ from mantenimiento.models import PlanMantenimiento
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class TipoVehiculo(models.Model):
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     tipo_uic = models.CharField(max_length=16)
     serie_uic = models.CharField(max_length=16)
     num_bogies = models.IntegerField(default=0, null=True, blank=True)
@@ -25,7 +25,7 @@ class TipoVehiculo(models.Model):
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class TipoSistemaIntegrado(models.Model):
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
         return self.codigo
@@ -33,29 +33,30 @@ class TipoSistemaIntegrado(models.Model):
 class TipoConjuntoSI(models.Model):
     tipo_sistema = models.ForeignKey(TipoSistemaIntegrado, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_sistema.codigo) + '-' + str(self.codigo))
 
 class TipoElementoSI(models.Model):
     tipo_conjunto = models.ForeignKey(TipoConjuntoSI, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_conjunto.tipo_sistema.codigo) + '-' + str(self.tipo_conjunto.codigo) + '-' + str(self.codigo))
 
 class ConsistenciaSI(models.Model):
     tipo_conjunto = models.ForeignKey(TipoConjuntoSI, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
     nivel_entrada = models.IntegerField(default = 1)
-    descripción = models.CharField(max_length=125, unique= True)
+    descripción = models.CharField(max_length=300, unique= True)
     valor_min = models.FloatField(null=True, blank=True)
     valor_max = models.FloatField(null=True, blank=True)
+    unidades_medida = models.CharField(max_length=6, null=True, blank=True)
     instruccion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_conjunto.tipo_sistema.codigo) + '-' + str(self.tipo_conjunto.codigo) + '-' + str(self.codigo))
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # 1.2 Ejes
@@ -83,29 +84,30 @@ class TipoEje(models.Model):
 class TipoConjuntoEje(models.Model):
     tipo_eje = models.ForeignKey(TipoEje, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_eje.codigo) + '-' + str(self.codigo))
 
 class TipoElementoEje(models.Model):
     tipo_conjunto = models.ForeignKey(TipoConjuntoEje, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=25, unique= True)
+    descripción = models.CharField(max_length=50, unique= True)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_conjunto.tipo_eje.codigo) + '-' + str(self.tipo_conjunto.codigo) + '-' + str(self.codigo))
 
 class ConsistenciaEje(models.Model):
     tipo_conjunto = models.ForeignKey(TipoConjuntoEje, on_delete=models.CASCADE)
     codigo= models.CharField(max_length=16, unique= True)
     nivel_entrada = models.IntegerField(default = 1)
-    descripción = models.CharField(max_length=125, unique= True)
+    descripción = models.CharField(max_length=300, unique= True)
     valor_min = models.FloatField(null=True, blank=True)
     valor_max = models.FloatField(null=True, blank=True)
+    unidades_medida = models.CharField(max_length=6, null=True, blank=True)
     instruccion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return (str(self.tipo_conjunto.tipo_eje.codigo) + '-' + str(self.tipo_conjunto.codigo) + '-' + str(self.codigo))
 
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

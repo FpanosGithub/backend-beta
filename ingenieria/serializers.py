@@ -7,12 +7,27 @@ class TipoVehiculoSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = TipoVehiculo
 
+class TipoVehiculoMinimoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoVehiculo
+        fields = ['id', 'codigo']
+
 class TipoEjeSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = TipoEje
 
+class TipoEjeMinimoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoEje
+        fields = ['id', 'codigo']
+
 class VersionCambiadorSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
+        model = VersionCambiador
+
+class VersionCambiadorMinimoSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ['id', 'codigo']
         model = VersionCambiador

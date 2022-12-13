@@ -1,8 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from organizaciones.models import Owner, Fabricante, EEM, Keeper
+from ingenieria.models import TipoVehiculo, TipoSistemaIntegrado, TipoConjuntoSI, TipoElementoSI
 from ingenieria.models import TipoVehiculo, TipoEje, TipoConjuntoEje, TipoElementoEje
-
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # 1. VEHICULOS
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -99,18 +99,16 @@ class Eje(models.Model):
 class ConjuntoEje(models.Model):
     eje = models.ForeignKey(Eje, related_name='conjuntos', on_delete=models.RESTRICT, null=True, blank=True)
     tipo = models.ForeignKey(TipoConjuntoEje, on_delete=models.RESTRICT, null=True, blank=True)
-    codigo = models.CharField(max_length=16, unique= True)
-    num_conjuntos = models.IntegerField(default=0)
+    num = models.IntegerField(default=0)
     def __str__(self):
-        return self.codigo
+        return self.tipo.codigo
 
 class ElementoEje(models.Model):
     conjunto = models.ForeignKey(ConjuntoEje, related_name='conjuntos', on_delete=models.RESTRICT, null=True, blank=True)
     tipo = models.ForeignKey(TipoElementoEje, on_delete=models.RESTRICT, null=True, blank=True)
-    codigo = models.CharField(max_length=16, unique= True)
-    num_elementos = models.IntegerField(default=0)
+    num = models.IntegerField(default=0)
     def __str__(self):
-        return self.codigo
+        return self.tipo.codigo
 
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -119,23 +117,14 @@ class ElementoEje(models.Model):
 
 class Distribuidor(models.Model):
     codigo = models.CharField(max_length=16, unique= True)
-    marcado = models.CharField(max_length=20,default = ' ', null=True, blank=True)
     tipo = models.CharField(max_length=16, default = '', null=True, blank=True)
-    documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
-    imagen = models.CharField(max_length=30,default = ' ', null=True, blank=True)
-    # Quien es quién
-    owner= models.ForeignKey(Owner, on_delete=models.RESTRICT, null=True, blank=True)
-    keeper= models.ForeignKey(Keeper, on_delete=models.RESTRICT, null=True, blank=True)
-    EEM= models.ForeignKey(EEM, on_delete=models.RESTRICT, limit_choices_to={'de_bogies': True},)
     # Situación
     vehiculo= models.ForeignKey(Vehiculo, on_delete=models.RESTRICT, null=True, blank=True)
     def __str__(self):
         return self.codigo
-    def get_absolute_url(self):
-        return reverse("ficha_bogie", kwargs={'pk':self.pk}) 
 
 class ConjuntoDistribuidor(models.Model):
-    nombre = models.CharField(max_length=16, default = '', null=True, blank=True)
+    codigo = models.CharField(max_length=16, default = '', null=True, blank=True)
     tipo = models.CharField(max_length=16, default = '', null=True, blank=True)
     num = models.IntegerField(default=0)
     documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
@@ -149,38 +138,25 @@ class ConjuntoDistribuidor(models.Model):
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class SistIntegradoVehiculo(models.Model):
-    codigo = models.CharField(max_length=16, unique= True)
-    marcado = models.CharField(max_length=20,default = ' ', null=True, blank=True)
-    tipo = models.CharField(max_length=16, default = '', null=True, blank=True)
-    documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
+    tipo = models.ForeignKey(TipoSistemaIntegrado, on_delete=models.RESTRICT, null=True, blank=True)
     imagen = models.CharField(max_length=30,default = ' ', null=True, blank=True)
-    # Quien es quién
-    owner= models.ForeignKey(Owner, on_delete=models.RESTRICT, null=True, blank=True)
-    keeper= models.ForeignKey(Keeper, on_delete=models.RESTRICT, null=True, blank=True)
-    EEM= models.ForeignKey(EEM, on_delete=models.RESTRICT, limit_choices_to={'de_bogies': True},)
     # Situación
     vehiculo= models.ForeignKey(Vehiculo, on_delete=models.RESTRICT, null=True, blank=True)
     def __str__(self):
-        return self.codigo
-    def get_absolute_url(self):
-        return reverse("ficha_bogie", kwargs={'pk':self.pk}) 
+        return self.tipo.codigo
 
 class ConjuntoSI(models.Model):
-    nombre = models.CharField(max_length=16, default = '', null=True, blank=True)
-    tipo = models.CharField(max_length=16, default = '', null=True, blank=True)
+    tipo = models.ForeignKey(TipoConjuntoSI, on_delete=models.RESTRICT, null=True, blank=True)
     num = models.IntegerField(default=0)
-    documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     # Situación
     sistema = models.ForeignKey(SistIntegradoVehiculo, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return self.tipo.codigo
 
 class ElementoSI(models.Model):
-    nombre = models.CharField(max_length=16, default = '', null=True, blank=True)
-    tipo = models.CharField(max_length=16, default = '', null=True, blank=True)
+    tipo = models.ForeignKey(TipoElementoSI, on_delete=models.RESTRICT, null=True, blank=True)
     num = models.IntegerField(default=0)
-    documentacion_tecnica = models.CharField(max_length=30, default = ' ', null=True, blank=True)
     # Situación
     conjunto = models.ForeignKey(ConjuntoSI, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
-        return self.codigo
+        return self.tipo.codigo

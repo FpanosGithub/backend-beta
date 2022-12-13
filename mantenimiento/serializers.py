@@ -29,31 +29,27 @@ class IntervencionVehiculoSerializer(serializers.ModelSerializer):
 
 class DatosMantenimientoEje ():
     def __init__(self, id_eje, intervenciones):
-        proximos = []
         eje = Eje.objects.get(pk = id_eje)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        pm =  PMSerializer(eje.pm)
-        query_niveles = NivelMantenimiento.objects.filter(pm__id = eje.pm.id)     
+        pm =  PMSerializer(eje.tipo_eje.plan_mantenimiento)
+        query_niveles = NivelMantenimiento.objects.filter(pm__id = eje.tipo_eje.plan_mantenimiento.id)     
         niveles = NivelSerializer(query_niveles, many =True)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        #query_proximos = ProximosMantenimientosEje.objects.filter(eje__id = eje.id)
-        #proximos = ProximoMantenimientoEjeSerializer(query_proximos)  
         lista = IntervencionEjeSerializer(intervenciones, many =True)
 
-        self.data = {'pm':pm.data, 'niveles':niveles.data, 'proximos':proximos, 'lista': lista.data}
+        self.data = {'pm':pm.data, 'niveles':niveles.data, 'lista': lista.data}
 
 class DatosMantenimientoVehiculo ():
-    def __init__(self, id_vehiculo, intervenciones):
-        proximos = []
+    def __init__(self, id_vehiculo, intervenciones): 
         vehiculo = Vehiculo.objects.get(pk = id_vehiculo)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        pm =  PMSerializer(vehiculo.pm)
-        query_niveles = NivelMantenimiento.objects.filter(pm__id = vehiculo.pm.id)     
+        pm =  PMSerializer(vehiculo.tipo.plan_mantenimiento)
+        query_niveles = NivelMantenimiento.objects.filter(pm__id = vehiculo.tipo.plan_mantenimiento.id)     
         niveles = NivelSerializer(query_niveles, many =True)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         lista = IntervencionVehiculoSerializer(intervenciones, many =True)
 
-        self.data = {'pm':pm.data, 'niveles':niveles.data, 'proximos':proximos, 'lista': lista.data}
+        self.data = {'pm':pm.data, 'niveles':niveles.data, 'lista': lista.data}
 
 
 

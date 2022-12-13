@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # terceros
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'drf_spectacular',
     # Propias
     'api',
@@ -71,6 +73,10 @@ MIDDLEWARE = [
 # REST framework configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny',],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema',
 }
 # CORS HEADERS configuration

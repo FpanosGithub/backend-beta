@@ -2,8 +2,7 @@ from django.db import models
 from django.urls import reverse
 from vehiculos.models import Vehiculo, Eje
 from red_ferroviaria.models import PuntoRed, Cambiador
-from ingenieria.models import ConsistenciaEje
-from mantenimiento.models import PlanMantenimiento
+from ingenieria.models import ConsistenciaEje, ConsistenciaSI
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # CAMBIO. Cada cambio registra sus valores y dispara un evento para el eje
@@ -203,7 +202,7 @@ class EventoEje(models.Model):
 class IntervencionVehiculo(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, null= True, blank = True)
     nivel = models.CharField(max_length=5, null= True, blank = True)
-    pm = models.ForeignKey(PlanMantenimiento, on_delete=models.CASCADE, null= True, blank = True)
+    # pm = models.ForeignKey(PlanMantenimiento, on_delete=models.CASCADE, null= True, blank = True)
     punto_red = models.ForeignKey(PuntoRed, on_delete=models.RESTRICT, null= True, blank = True)
     inicio = models.DateField(null=True, blank=True)
     fin = models.DateField(null=True, blank=True)
@@ -220,7 +219,7 @@ class IntervencionVehiculo(models.Model):
 class IntervencionEje(models.Model):
     eje = models.ForeignKey(Eje, on_delete=models.CASCADE, null= True, blank = True)
     nivel = models.CharField(max_length=5, null= True, blank = True)
-    pm = models.ForeignKey(PlanMantenimiento, on_delete=models.CASCADE, null= True, blank = True)
+    # pm = models.ForeignKey(PlanMantenimiento, on_delete=models.CASCADE, null= True, blank = True)
     punto_red = models.ForeignKey(PuntoRed, on_delete=models.RESTRICT, null= True, blank = True)
     inicio = models.DateField(null=True, blank=True)
     fin = models.DateField(null=True, blank=True)
@@ -233,6 +232,10 @@ class IntervencionEje(models.Model):
     apta = models.BooleanField(default=True)
     def __str__(self):
         return (str(self.pk) + ' - ' + str(self.nivel)+ ' - Eje: ' + str(self.eje.codigo))
+
+class RegistroIntervencionSI(models.Model):
+    interv = models.ForeignKey(IntervencionVehiculo, on_delete=models.CASCADE, null= True, blank = True)   
+    consistencia = models.ForeignKey(ConsistenciaSI, on_delete=models.RESTRICT, null= True, blank = True)   
 
 class RegistroIntervencionEje(models.Model):
     interv = models.ForeignKey(IntervencionEje, on_delete=models.CASCADE, null= True, blank = True)   

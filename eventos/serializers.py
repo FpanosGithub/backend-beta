@@ -102,5 +102,5 @@ class DatosSeleccionAlarmas ():
         alarmas_vehiculos_resueltas = AlarmaVehiculoSerializer(query_alarmas_vehiculos_resueltas, many= True)
         
         self.data = {   'ejes': {'activas':alarmas_ejes_activas.data, 'resueltas':alarmas_ejes_resueltas.data,},
-                        'vagones':{'activas':alarmas_vehiculos_activas.data,'resueltas':alarmas_vehiculos_resueltas.data,}
+                        'vehiculos':{'activas':alarmas_vehiculos_activas.data,'resueltas':alarmas_vehiculos_resueltas.data,}
         }

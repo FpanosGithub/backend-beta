@@ -30,7 +30,7 @@ def filtrar_circulaciones_eje(filtro, id_eje):
     return Circulaciones
 
 # Filtramos las circulaciones que vamos a mostrar de un vagón por fechas
-def filtrar_circulaciones_vehiculo(filtro, id_vagon):
+def filtrar_circulaciones_vehiculo(filtro, id_vehiculo):
 
     inicio_naive = datetime.strptime(filtro['inicio'], "%Y-%m-%dT%H:%M:%S.%fZ")
     inicio = inicio_naive.replace(tzinfo=timezone.utc)
@@ -38,7 +38,7 @@ def filtrar_circulaciones_vehiculo(filtro, id_vagon):
     fin = fin_naive.replace(tzinfo=timezone.utc)
     num_max = filtro['num_max']
 
-    Circulaciones1 = CirculacionVehiculo.objects.filter(vagon = id_vagon).order_by('-id')
+    Circulaciones1 = CirculacionVehiculo.objects.filter(vehiculo = id_vehiculo).order_by('-id')
     Circulaciones2 = Circulaciones1.filter(dt_inicial__gte = inicio)
     Circulaciones = Circulaciones2.filter(dt_final__lte = fin)[:num_max]
     
