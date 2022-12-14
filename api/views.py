@@ -129,7 +129,7 @@ def SeleccionVehiculos(request):
     serializer = VehiculoSerializer(vehiculos, many= True)
     return Response(serializer.data)
 
-# api/circulaciones_vagon
+# api/circulaciones_vehiculo
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def CirculacionesVehiculo(request): 
@@ -143,7 +143,7 @@ def CirculacionesVehiculo(request):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)
 
-# api/eventos_circulacion_vagon
+# api/eventos_circulacion_vehiculo
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def EventosCirculacionVehiculo(request): 
@@ -154,7 +154,7 @@ def EventosCirculacionVehiculo(request):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)
 
-# api/mantenimientos_vagón
+# api/mantenimientos_vehiculo
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def MantenimientosVehiculo(request): 

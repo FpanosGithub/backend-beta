@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from vehiculos.models import Vehiculo, Eje
+from ingenieria.serializers import TipoVehiculoSerializer
 
 class EjeMinimoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +25,7 @@ class EjeSerializer(serializers.ModelSerializer):
         model = Eje
 
 class VehiculoSerializer(serializers.ModelSerializer):
-    tipo = serializers.StringRelatedField(many=False)
+    tipo = TipoVehiculoSerializer(many=False, read_only=True)
     fabricante = serializers.StringRelatedField(many=False)
     keeper = serializers.StringRelatedField(many=False)
     owner = serializers.StringRelatedField(many=False)
