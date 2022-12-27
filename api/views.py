@@ -1,4 +1,3 @@
-from eventos.models import CambioEje
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -11,10 +10,10 @@ from vehiculos.ejes import filtrar_ejes
 from vehiculos.vehiculos import filtrar_vehiculos
 from vehiculos.serializers import EjeSerializer, VehiculoSerializer
 # eventos
-from eventos.models import CambioEje, EventoEje, EventoVehiculo
+from eventos.models import CambioEje, EventoEje, EventoVehiculo, Noticia
 from eventos.logicas import filtrar_cambios_eje, filtrar_circulaciones_eje, filtrar_operaciones_cambio 
 from eventos.logicas import filtrar_circulaciones_vehiculo
-from eventos.serializers import DatosSeleccionAlarmas
+from eventos.serializers import DatosSeleccionAlarmas, NoticiaSerializer
 from eventos.serializers import EventoEjeSerializer, CirculacionEjeSerializer, CambioSerializer, OperacionCambioSerializer
 from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSerializer
 # mantenimientos
@@ -41,6 +40,17 @@ def Actores(request):
 @permission_classes([AllowAny])
 def Alarmas(request): 
     serializer = DatosSeleccionAlarmas()
+    return Response(serializer.data)
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# NOTICIAS
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# api/noticias
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Noticias(request): 
+    noticias = Noticia.objects.order_by('-fecha')
+    serializer = NoticiaSerializer(noticias, many= True)
     return Response(serializer.data)
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from eventos.models import OperacionCambio, CambioEje, CirculacionEje, EventoEje, EventoVehiculo, CirculacionVehiculo 
-from eventos.models import AlarmaEje, AlarmaVehiculo, AlarmaCambiador
+from eventos.models import AlarmaEje, AlarmaVehiculo, AlarmaCambiador, Noticia
 from eventos.models import IntervencionEje, IntervencionVehiculo, RegistroIntervencionEje
 
 # Register your models here.
@@ -16,6 +16,7 @@ admin.site.register(EventoVehiculo)
 admin.site.register(AlarmaEje)
 admin.site.register(AlarmaVehiculo)
 admin.site.register(AlarmaCambiador)
+admin.site.register(Noticia)
 # MANTENIMIENTO
 admin.site.register(IntervencionEje)
 admin.site.register(IntervencionVehiculo)

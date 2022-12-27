@@ -2,6 +2,7 @@ from dataclasses import fields
 from rest_framework import serializers
 from eventos.models import IntervencionEje, AlarmaEje, EventoEje, CirculacionEje, CambioEje, OperacionCambio
 from eventos.models import IntervencionVehiculo, AlarmaVehiculo, EventoVehiculo, CirculacionVehiculo
+from eventos.models import Noticia
 from vehiculos.serializers import EjeMinimoSerializer, VehiculoMinimoSerializer
 from red_ferroviaria.serializers import CambiadorMinimoSerializer
 
@@ -61,6 +62,12 @@ class OperacionCambioSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = OperacionCambio
+
+class NoticiaSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = Noticia
+
 
 class DatosCirculacion ():
     def __init__(self, cursor):

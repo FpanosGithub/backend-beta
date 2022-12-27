@@ -247,6 +247,7 @@ class RegistroIntervencionEje(models.Model):
 
 class Noticia(models.Model):
     fecha = models.DateField()
+    titulo = models.CharField(max_length=50, null= True, blank = True)
     mensaje = models.CharField(max_length=250, null= True, blank = True)
     foto = models.CharField(max_length=16, null= True, blank = True)
     opciones_subproyecto =  [('Ejes', 'Ejes'),

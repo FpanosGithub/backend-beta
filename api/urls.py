@@ -1,6 +1,6 @@
 from django.urls import path
 # Generales
-from api.views import Actores, Alarmas
+from api.views import Actores, Alarmas, Noticias
 # Ejes
 from api.views import SeleccionEjes, CirculacionesEje, EventosCirculacionEje, CambiosEje, MantenimientosEje
 # Vehiculos
@@ -13,6 +13,8 @@ urlpatterns = [
     path('actores', Actores, name = 'actores'),
     # ALARMAS
     path('alarmas', Alarmas, name = 'alarmas'),
+    # NOTICIAS
+    path('noticias', Noticias, name = 'noticias'),
     # EJES
     path('ejes', SeleccionEjes, name = 'ejes'),
     path('circulaciones_eje', CirculacionesEje, name = 'circulaciones_eje'),
@@ -26,5 +28,5 @@ urlpatterns = [
     path('mantenimientos_vehiculo', MantenimientosVehiculo, name = 'mantenimientos_vehiculo'),
     # CAMBIADORES
     path('operaciones_de_cambio', OperacionesDeCambio, name = 'operaciones_de_cambio'),
-    path('cambios_operacion', CambiosOperacion, name = 'cambios_operacion'),
+    path('cambios_operacion', CambiosOperacion, name = 'cambios_operacion'),  
 ]
