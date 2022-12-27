@@ -136,7 +136,7 @@ def CirculacionesVehiculo(request):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # Vamos a componer una lista de eventos del eje seleccionado con un rango temporal
     rango = request.data['rango']
-    id_vehiculo = request.data['id_vagon']
+    id_vehiculo = request.data['id_vehiculo']
     circulaciones = filtrar_circulaciones_vehiculo(rango, id_vehiculo)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = CirculacionVehiculoSerializer(circulaciones, many= True)

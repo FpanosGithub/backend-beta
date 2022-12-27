@@ -247,7 +247,7 @@ class ObjCirculacionEje():
             'dt': fin.dt, 
             'tipo_msg':fin.tipo_msg,
             'eje':self.codigo,
-            'en_vagon': vehiculo.codigo, 
+            'en_vehiculo': vehiculo.id, 
             'lng':fin.lng, 
             'lat':fin.lat,
             'vel':fin.vel, 

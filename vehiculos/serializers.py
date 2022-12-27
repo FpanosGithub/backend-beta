@@ -10,10 +10,10 @@ class EjeMinimoSerializer(serializers.ModelSerializer):
 class VehiculoMinimoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehiculo
-        fields = ['id', 'codigo']
+        fields = ['id', 'matricula']
 
 class EjeSerializer(serializers.ModelSerializer):
-    version = serializers.StringRelatedField(many=False)
+    tipo_eje = serializers.StringRelatedField(many=False)
     fabricante = serializers.StringRelatedField(many=False)
     keeper = serializers.StringRelatedField(many=False)
     owner = serializers.StringRelatedField(many=False)

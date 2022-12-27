@@ -9,9 +9,8 @@ from ingenieria.models import TipoVehiculo, TipoEje, TipoConjuntoEje, TipoElemen
 
 class Vehiculo(models.Model):
     # Descripción del vehiculo
-    codigo = models.CharField(max_length=16, unique= True)
+    matricula = models.CharField(max_length=20, unique= True, default = ' ', null=True, blank=True)
     tipo = models.ForeignKey(TipoVehiculo, on_delete=models.CASCADE, null=True, blank=True)
-    matricula = models.CharField(max_length=100, default = ' ', null=True, blank=True)
     descripcion = models.CharField(max_length=100, default = ' ', null=True, blank=True)
     #!!!!!!!!
     km_origen = models.FloatField(default=0)                  # km que llevaba cuando la EEM lo asumió
@@ -42,7 +41,7 @@ class Vehiculo(models.Model):
     km_totales = models.FloatField(default=0)           # km origen + km circulados
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def __str__(self):
-        return self.codigo
+        return self.matricula
     def get_absolute_url(self):
         return reverse("ficha_vehiculo", kwargs={'pk':self.pk})
 

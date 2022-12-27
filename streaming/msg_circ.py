@@ -2,7 +2,7 @@ msg_circ = \
 {
     "dt":"2022-11-03 12:00:00", 
     "tipo_msg":"CIRC",
-    "vehiculo":"V-ADIF-01", 
+    "vehiculo":1, 
     "lng":-1.7893, 
     "lat":43.3477,
     "vel":75.87,

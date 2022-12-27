@@ -10,7 +10,7 @@ class TipoVehiculoSerializer(serializers.ModelSerializer):
 class TipoVehiculoMinimoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoVehiculo
-        fields = ['id', 'codigo']
+        fields = ['id', 'codigo', 'descripcion']
 
 class TipoEjeSerializer(serializers.ModelSerializer):
     class Meta:

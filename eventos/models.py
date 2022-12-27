@@ -84,7 +84,7 @@ class AlarmaVehiculo(models.Model):
     mensaje = models.CharField(max_length=50, null= True, blank = True)
     informe_solucion = models.CharField(max_length=50, null= True, blank = True)
     def __str__(self):
-        return (str(self.pk) + ' - vehículo: ' + str(self.vehiculo.codigo))
+        return (str(self.pk) + ' - vehículo: ' + str(self.vehiculo.id))
     
 class AlarmaCambiador(models.Model):
     activa = models.BooleanField(default=False)
@@ -121,7 +121,7 @@ class CirculacionVehiculo(models.Model):
     # Alarma
     alarma = models.BooleanField(default=False, null= True, blank = True)
     def __str__(self):
-        return (str(self.pk) + ' - Vehículo: ' + str(self.vagon.codigo))
+        return (str(self.pk) + ' - Vehículo: ' + str(self.vehiculo.id))
     
 class EventoVehiculo(models.Model):
     dt = models.DateTimeField()
@@ -139,7 +139,7 @@ class EventoVehiculo(models.Model):
     alarma = models.BooleanField(default=False, null= True, blank = True)
     circulacion = models.ForeignKey(CirculacionVehiculo, on_delete=models.CASCADE, null= True, blank = True)
     def __str__(self):  
-        return (str(self.pk) + ' - Vehículo: ' + str(self.vehiculo.codigo))
+        return (str(self.pk) + ' - Vehículo: ' + str(self.vehiculo.id))
     
 
 # EJE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -214,7 +214,7 @@ class IntervencionVehiculo(models.Model):
     cerrada = models.BooleanField(default=True)
     apta = models.BooleanField(default=True)
     def __str__(self):
-        return (str(self.pk) + ' - ' + str(self.nivel)+ ' - Vehículo: ' + str(self.vehiculo.codigo))
+        return (str(self.pk) + ' - ' + str(self.nivel)+ ' - Vehículo: ' + str(self.vehiculo.matricula))
 
 class IntervencionEje(models.Model):
     eje = models.ForeignKey(Eje, on_delete=models.CASCADE, null= True, blank = True)
@@ -240,4 +240,25 @@ class RegistroIntervencionSI(models.Model):
 class RegistroIntervencionEje(models.Model):
     interv = models.ForeignKey(IntervencionEje, on_delete=models.CASCADE, null= True, blank = True)   
     consistencia = models.ForeignKey(ConsistenciaEje, on_delete=models.RESTRICT, null= True, blank = True)   
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# ACONTECIMIENTOS - NOTICIAS DEL PROYECTO MERCAVE
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+class Noticia(models.Model):
+    fecha = models.DateField()
+    mensaje = models.CharField(max_length=250, null= True, blank = True)
+    foto = models.CharField(max_length=16, null= True, blank = True)
+    opciones_subproyecto =  [('Ejes', 'Ejes'),
+                         ('Cambiador', 'Cambiador'),
+                         ('Vagones', 'Vagones'),
+                         ('Banco Tria', 'Banco Tria'),
+                         ('Banco Córdoba', 'Banco Córdoba')]
+    subproyecto = models.CharField(max_length=15, choices = opciones_subproyecto, default = 'Ejes')
+    alerta = models.BooleanField(default=False)
+    logro = models.BooleanField(default=False)
+    def __str__(self):
+        return (str(self.pk) + ' - ' + str(self.fecha))   
+
+
 

@@ -4,7 +4,7 @@ import pytz
 from streaming.auxiliares import punto_red, distancia_km, tipo_evento, evento_circulacion
 from vehiculos.models import Vehiculo
 from streaming.circulacion_eje import ObjCirculacionEje
-from streaming.auxiliares import ObjetoPy, limpiar_ejes_sueltos, actualizar_mantenimientos_vehiculo
+from streaming.auxiliares import ObjetoPy, limpiar_ejes_sueltos
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # CLASES 
@@ -53,14 +53,14 @@ def RegistraCirculacion(data):
     obj = ObjetoPy(data)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # COGEMOS EL OBJETO VAGÓN DE LA CIRCULACIÓN
-    vehiculo = Vehiculo.objects.get(codigo = obj.vehiculo)
+    vehiculo = Vehiculo.objects.get(id = obj.vehiculo)
     # DATOS DE ANTES Y DESPUÉS DE LA CIRCULACIÓN
     ini = DatosIniciales(vehiculo)
     fin = DatosFinales (obj)   
     #¡¡¡ IMPORTANTE !!!
     # SI EL VAGÓN ESTÁ DE BAJA O EN MANTENIMIENTO NO SE PUEDE MOVER Y NO SE REGISTRA LA CIRCULACIÓN DE EL NI DE LOS EJES QUE LLEVA
     if ini.baja or ini.mantenimiento:
-        respuesta = 'IMPOSIBLE CIRCULAR EL VAGÓN: ' + vehiculo.codigo + ', POR ENCONTRARSE EN ESTADO: ' + vehiculo.estado_servicio
+        respuesta = 'IMPOSIBLE CIRCULAR EL VEHÍCULO: ' + vehiculo.codigo + ', POR ENCONTRARSE EN ESTADO: ' + vehiculo.estado_servicio
         return respuesta
 
     # CALCULAMOS DISTANCIA, DURACIÓN Y TIPO DE EVENTO DE LA CIRCULACIÓN - LOS GUARDAMOS EN DATOS FINALES
@@ -91,7 +91,7 @@ def RegistraCirculacion(data):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     evento_circulacion(ini, fin, vehiculo) 
     # Actualización de los mantenimientos
-    proximo_mantenimiento = actualizar_mantenimientos_vehiculo (vehiculo, fin.distancia)
+    # proximo_mantenimiento = actualizar_mantenimientos_vehiculo (vehiculo, fin.distancia)
                                               
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # GUARDAMOS DATOS NUEVOS EN LOS EJES Y EN EL VAGÓN
@@ -108,10 +108,6 @@ def RegistraCirculacion(data):
     vehiculo.lat = fin.lat
     vehiculo.km_totales = vehiculo.km_totales + fin.distancia
     vehiculo.km_proximo_mant = vehiculo.km_proximo_mant - fin.distancia
-    try: 
-        vehiculo.dias_proximo_mant = proximo_mantenimiento.dias
-    except:
-        vehiculo.dias_proximo_mant = 1000
     vehiculo.transmitiendo = fin.transmitiendo
     if fin.en_movimiento: vehiculo.estado_servicio = 'CIRCULANDO'
     else: vehiculo.estado_servicio = 'PARADO'
@@ -123,17 +119,17 @@ def RegistraCirculacion(data):
     
     limpiar_ejes_sueltos (vehiculo, lista_ejes)
     
-    # 4. Guardamos circulación - vagón en mercave_mongo
+    # 4. Guardamos circulación - VEHICULO en mercave_mongo
     msg= {
         'dt': fin.dt.strftime("%m/%d/%Y %H:%M:%S"), 
         'tipo_msg':fin.tipo_msg,
-        'vagon': vehiculo.codigo, 
+        'vagon': vehiculo.id, 
         'lng':fin.lng, 
         'lat':fin.lat,
         'vel':fin.vel,
         }
     mercave_mongo.circulaciones_vehiculos.insert_one(msg) # ***
 
-    respuesta = 'CIRCULACIÓN DEL VEHÍCULO: ' + vehiculo.codigo + ', REGISTRADA CON ÉXITO'
+    respuesta = 'CIRCULACIÓN DEL VEHÍCULO: ' + vehiculo.matricula + ', REGISTRADA CON ÉXITO'
     return respuesta
     

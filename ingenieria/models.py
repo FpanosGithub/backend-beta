@@ -11,7 +11,7 @@ from mantenimiento.models import PlanMantenimiento
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class TipoVehiculo(models.Model):
     codigo= models.CharField(max_length=16, unique= True)
-    descripción = models.CharField(max_length=50, unique= True)
+    descripcion = models.CharField(max_length=50, unique= True)
     tipo_uic = models.CharField(max_length=16)
     serie_uic = models.CharField(max_length=16)
     num_bogies = models.IntegerField(default=0, null=True, blank=True)
