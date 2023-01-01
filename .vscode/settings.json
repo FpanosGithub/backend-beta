@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/fd0b8763-48d3-4b8f-837d-1effb39099d9/AppServices/subscriptions/fd0b8763-48d3-4b8f-837d-1effb39099d9/resourceGroups/appsvc_linux_centralus_premium/providers/Microsoft.Web/sites/trams-mercave-23",
+  "appService.deploySubpath": "."
+}
