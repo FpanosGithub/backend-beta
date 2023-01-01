@@ -75,9 +75,7 @@ class AlarmaVehiculo(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, null= True, blank = True)
     dt = models.DateTimeField(null=True, blank=True)
     opciones_alarma =  [('TRANSMISION', 'TRANSMISION'),
-                        ('CIRCULACION', 'CIRCULACION'),
-
-                        
+                        ('CIRCULACION', 'CIRCULACION'),  
                         ('MANTENIMIENTO', 'MANTENIMIENTO'),
                         ]
     tipo = models.CharField(max_length=15, choices = opciones_alarma, default = 'CIRCULACION')
