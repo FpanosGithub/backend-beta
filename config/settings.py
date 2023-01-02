@@ -88,6 +88,7 @@ CORS_ORIGIN_WHITELIST = (
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://trams-mercave.azurewebsites.net',
+    '*',
 ]
 
 # SPECTACULAR Settings
@@ -117,6 +118,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# AQUI. PARA CAMBIAR DE LOCAL A REMOTO. 
+# LA BASE DE DATOS CAMBIA EN SETTINGS.PY
+# PRODUCTION.PY ESTÁ DESHABILITADO EN WSGI PORQUE NO FUNCIONABA EN ÚLTIMO DEPLOYMENT EN AZURE ASÍ QUE
+# PARA CAMBIAR DE LOCAL A AZURE HAY QUE CAMBIAR LA BASE DE DATOS.
+# DEJAR EL CODIGO NO USADO EN COMENTARIOS!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# <LOCAL>
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -130,7 +140,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #        "PORT": "",
 #    }
 #}
-
+#</LOCAL>
+# <AZURE>
 import os
 # DBHOST is only the server name, not the full URL
 hostname = os.environ['DBHOST']
@@ -146,7 +157,7 @@ DATABASES = {
         'PASSWORD': os.environ['DBPASS'] 
     }
 }
-
+# </AZURE>
 
 
 # Password validation
