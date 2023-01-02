@@ -82,12 +82,12 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8000',
-    'http://mercave-backend.azurewebsites.net',
+    'http://trams-mercave.azurewebsites.net',
 )
 # CSRF Configuration
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
-    'http://mercave-backend.azurewebsites.net',
+    'http://trams-mercave.azurewebsites.net',
 ]
 
 # SPECTACULAR Settings
