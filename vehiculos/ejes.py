@@ -13,13 +13,13 @@ def filtrar_ejes(filtro):
         filter = True
     if filter:
         if owners:
-            ejes_operadores = Eje.objects.filter(operador__in = owners)
+            ejes_owners = Eje.objects.filter(owner__in = owners)
         else:
-            ejes_operadores = Eje.objects.all()
+            ejes_owners = Eje.objects.all()
         if keepers:
-            ejes_keeepers = ejes_operadores.filter(keeper__in = keepers)
+            ejes_keeepers = ejes_owners.filter(keeper__in = keepers)
         else:
-            ejes_keeepers = ejes_operadores
+            ejes_keeepers = ejes_owners
         if fabricantes:
             ejes_fabricantes = ejes_keeepers.filter(fabricante__in = fabricantes)
         else:

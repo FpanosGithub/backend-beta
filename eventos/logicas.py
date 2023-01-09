@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from eventos.models import CambioEje, OperacionCambio, CirculacionEje, CirculacionVehiculo
+from eventos.models import CambioEje, OperacionCambio, CirculacionEje, CirculacionVehiculo, Noticia
 
 # Calculamos el rango temporal antes y despues de dt para hacer la query a mongodb sobre los mensajes 
 def calcular_rango_evento (dt, rango):
@@ -72,3 +72,31 @@ def filtrar_operaciones_cambio(filtro):
     operaciones = operaciones1.filter(dt__lte = fin).order_by('-id')[:num_max]
  
     return operaciones
+
+
+# Filtramos las noticias de MERCAVE que vamos a mostrar ordenadas por fechas
+def filtrar_noticias(filtro):
+    subproyectos = filtro['filtro_noticias']['subproyectos']
+    inicio = datetime.strptime(filtro['filtro_noticias']['inicio'], "%Y-%m-%d")
+    fin = datetime.strptime(filtro['filtro_noticias']['fin'], "%Y-%m-%d")
+
+    filter = False
+    if (subproyectos):
+        filter = True
+    if filter:
+        if subproyectos:
+            noticias = Noticia.objects.filter(subproyecto__in = subproyectos)
+        else:
+            noticias = Noticia.objects.all()
+    else:
+        noticias = Noticia.objects.all()
+    
+    return noticias.filter(fecha__gte = inicio).filter(fecha__lte = fin).order_by('-fecha')
+
+
+
+def filtrar_intervenciones_vehiculo (rango, id_vehiculo):
+    return []
+
+def filtrar_proximos_mantenimientos_vehiculo(rango, id_vehiculo):
+    return []

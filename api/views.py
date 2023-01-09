@@ -7,12 +7,12 @@ from rest_framework.decorators import api_view, permission_classes
 from organizaciones.serializers import DatosSeleccionActores
 # material
 from vehiculos.ejes import filtrar_ejes
-from vehiculos.vehiculos import filtrar_vehiculos
+from vehiculos.vehiculos import filtrar_vehiculos, filtrar_planes_mantenimiento_vehiculo
 from vehiculos.serializers import EjeSerializer, VehiculoSerializer
 # eventos
-from eventos.models import CambioEje, EventoEje, EventoVehiculo, Noticia
+from eventos.models import CambioEje, EventoEje, EventoVehiculo
 from eventos.logicas import filtrar_cambios_eje, filtrar_circulaciones_eje, filtrar_operaciones_cambio 
-from eventos.logicas import filtrar_circulaciones_vehiculo
+from eventos.logicas import filtrar_circulaciones_vehiculo, filtrar_noticias, filtrar_intervenciones_vehiculo, filtrar_proximos_mantenimientos_vehiculo
 from eventos.serializers import DatosSeleccionAlarmas, NoticiaSerializer
 from eventos.serializers import EventoEjeSerializer, CirculacionEjeSerializer, CambioSerializer, OperacionCambioSerializer
 from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSerializer
@@ -46,10 +46,12 @@ def Alarmas(request):
 # NOTICIAS
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # api/noticias
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def Noticias(request): 
-    noticias = Noticia.objects.order_by('-fecha')
+    filtro = request.data['filtro']
+    noticias = filtrar_noticias(filtro)
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = NoticiaSerializer(noticias, many= True)
     return Response(serializer.data)
 
@@ -171,9 +173,11 @@ def MantenimientosVehiculo(request):
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     rango = request.data['rango']
     id_vehiculo = request.data['id_vehiculo']
-    intervenciones_vehiculo = filtrar_intervenciones_vehiculo(rango, id_vehiculo)
+    planes_mantenimiento_vehiculo = filtrar_planes_mantenimiento_vehiculo(id_vehiculo)
+    intervenciones_mantenimiento_vehiculo = filtrar_intervenciones_vehiculo(rango, id_vehiculo)
+    proximos_mantenimientos_vehiculo = filtrar_proximos_mantenimientos_vehiculo(rango, id_vehiculo)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    serializer = DatosMantenimientoVehiculo(id_vehiculo, intervenciones_vehiculo)
+    serializer = DatosMantenimientoVehiculo(id_vehiculo, planes_mantenimiento_vehiculo,intervenciones_mantenimiento_vehiculo,proximos_mantenimientos_vehiculo)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)
 

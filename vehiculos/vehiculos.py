@@ -1,8 +1,6 @@
 from vehiculos.models import Vehiculo
 
 def filtrar_vehiculos(filtro):
-    print('!!!!!')
-    print(filtro)
     owners = filtro['filtro_vehiculos']['owners']
     keepers = filtro['filtro_vehiculos']['keepers']
     EEMs = filtro['filtro_vehiculos']['EEMs']
@@ -32,3 +30,9 @@ def filtrar_vehiculos(filtro):
         vehiculos = Vehiculo.objects.all()
 
     return vehiculos.order_by('-id')
+
+
+
+def filtrar_planes_mantenimiento_vehiculo(id_vehiculo):
+    return []
+    
