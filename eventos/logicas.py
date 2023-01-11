@@ -93,8 +93,6 @@ def filtrar_noticias(filtro):
     
     return noticias.filter(fecha__gte = inicio).filter(fecha__lte = fin).order_by('-fecha')
 
-
-
 def filtrar_intervenciones_vehiculo (rango, id_vehiculo):
     return []
 
