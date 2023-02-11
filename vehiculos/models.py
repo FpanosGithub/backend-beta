@@ -9,6 +9,7 @@ from ingenieria.models import TipoVehiculo, TipoEje, TipoConjuntoEje, TipoElemen
 
 class Vehiculo(models.Model):
     # Descripción del vehiculo
+    clase = models.CharField(max_length=15, choices = [('LOCOMOTORA','Locomotora'),('AUXILIAR','Vehículo Auxiliar'),('VAGON','vagón')], default = 'VAGON')
     matricula = models.CharField(max_length=20, unique= True, default = ' ', null=True, blank=True)
     tipo = models.ForeignKey(TipoVehiculo, on_delete=models.CASCADE, null=True, blank=True)
     descripcion = models.CharField(max_length=100, default = ' ', null=True, blank=True)
