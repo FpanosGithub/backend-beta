@@ -52,7 +52,7 @@ def DetalleVehiculo(request, id=1):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def SeleccionLocomotoras(request):
-    vehiculos = Vehiculo.objects.filter(tipo__codigo = 'locomotora').order_by('-id')
+    vehiculos = Vehiculo.objects.filter(clase = 'LOCOMOTORA').order_by('-id')
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = VehiculoSerializer(vehiculos, many= True)
     return Response(serializer.data)
@@ -61,7 +61,7 @@ def SeleccionLocomotoras(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def SeleccionAuxiliares(request):
-    vehiculos = Vehiculo.objects.filter(tipo__codigo = 'auxiliares').order_by('-id')
+    vehiculos = Vehiculo.objects.filter(clase = 'AUXILIAR').order_by('-id')
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = VehiculoSerializer(vehiculos, many= True)
     return Response(serializer.data)
@@ -70,7 +70,7 @@ def SeleccionAuxiliares(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def SeleccionVagones(request):
-    vehiculos = Vehiculo.objects.filter(tipo__codigo = 'vagones').order_by('-id')
+    vehiculos = Vehiculo.objects.filter(clase = 'VAGON').order_by('-id')
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = VehiculoSerializer(vehiculos, many= True)
     return Response(serializer.data)
