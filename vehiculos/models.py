@@ -28,13 +28,17 @@ class Vehiculo(models.Model):
     fecha_proximo_mantenimiento = models.DateField(null=True, blank=True)    # cuando será el proximo mantenimiento
     km_proximo_mant = models.FloatField(default=0, null=True, blank=True)
     nivel_proximo_mant = models.IntegerField(default=0)
-    # Estado del Vehículo
+    # Estado del Vehículo - DEPRECATED - Eliminar cuando se pueda
     estado_servicio = models.CharField(max_length=15, choices = [('BAJA','BAJA'),('CIRCULANDO','CIRCULANDO'),('PARADO','PARADO'),('MANTENIMIENTO','MANTENIMIENTO')], default = 'PARADO')
-    observaciones_servicio = models.CharField(max_length=80, default = 'sin observaciones')
+    # Variables estado vehículo
+    en_servicio = models.BooleanField(default=True)
+    en_mantenimiento = models.BooleanField(default=True)
+    en_circulación = models.BooleanField(default=True)
+    en_nudo = models.BooleanField(default=False)
     transmitiendo = models.BooleanField(default=False)
     alarma = models.BooleanField(default=False)
     ultimo_evento_dt = models.DateTimeField(null=True, blank=True)
-    en_nudo = models.BooleanField(default=False)
+    observaciones_servicio = models.CharField(max_length=80, default = 'sin observaciones')
     vel = models.FloatField(default=0, null=True, blank=True)
     lng = models.FloatField(default=-3.9820) # grados
     lat = models.FloatField(default=40.2951) # grados
