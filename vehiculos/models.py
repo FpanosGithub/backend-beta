@@ -33,7 +33,7 @@ class Vehiculo(models.Model):
     # Variables estado vehículo
     en_servicio = models.BooleanField(default=True)
     en_mantenimiento = models.BooleanField(default=True)
-    en_circulación = models.BooleanField(default=True)
+    en_circulacion = models.BooleanField(default=True)
     en_nudo = models.BooleanField(default=False)
     transmitiendo = models.BooleanField(default=False)
     alarma = models.BooleanField(default=False)
