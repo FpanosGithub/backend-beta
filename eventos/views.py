@@ -30,7 +30,6 @@ def EventosCirculacionVehiculo(request, id=1):
     eventos = EventoVehiculo.objects.filter(circulacion = id).order_by('-dt')
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = EventoVehiculoSerializer(eventos, many= True)
-    print(serializer.data)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)
 

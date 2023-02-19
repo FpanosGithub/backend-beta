@@ -77,32 +77,42 @@ class DatosCirculacionesAmpliadas ():
         circulaciones_ampliadas = []
         circulacion_ampliada = {}
         for circulacion in lista_circulaciones:
-            circulacion_ampliada['id'] = circulacion.id
-            circulacion_ampliada['abierta'] = circulacion.abierta
-            circulacion_ampliada['dt_inicial'] = circulacion.dt_inicial
-            circulacion_ampliada['lat_inicial'] =circulacion.lat_inicial
-            circulacion_ampliada['lng_inicial'] =circulacion.lng_inicial
-            circulacion_ampliada['punto_red_inicial'] =circulacion.punto_red_inicial
-            circulacion_ampliada['dt_final'] = circulacion.dt_final
-            circulacion_ampliada['lat_final'] =circulacion.lat_final
-            circulacion_ampliada['lng_final'] =circulacion.lng_final
-            circulacion_ampliada['punto_red_final'] =circulacion.punto_red_final
-            circulacion_ampliada['eventos'] = []
-            lista_eventos = EventoVehiculo.objects.filter(circulacion = circulacion.id).order_by('-dt')
-            evento = {}
-            for item in lista_eventos:
-                evento['id'] = item.id
-                evento['lng'] = item.lng
-                evento['lat'] = item.lat
-                evento['punto_red'] = item.punto_red
-                evento['evento'] = item.evento
-                evento['vel'] = item.vel
-                evento['alarma'] = item.alarma
-                circulacion_ampliada['eventos'].append(evento)
-
+            circulacion_ampliada= {
+                'id': circulacion.id,
+                'abierta': circulacion.abierta,
+                'dt_inicial': circulacion.dt_inicial,
+                'lat_inicial': circulacion.lat_inicial,
+                'lng_inicial': circulacion.lng_inicial,
+                'punto_red_inicial': circulacion.punto_red_inicial,
+                'dt_final': circulacion.dt_final,
+                'lat_final': circulacion.lat_final,
+                'lng_final': circulacion.lng_final,
+                'punto_red_final': circulacion.punto_red_final,
+                'eventos': self.DatosEventos(id_circulacion = circulacion.id)
+            }
             circulaciones_ampliadas.append(circulacion_ampliada)
-        
+
         self.data = circulaciones_ampliadas
+    
+    def DatosEventos (self, id_circulacion):        
+        query_eventos = EventoVehiculo.objects.filter(circulacion = id_circulacion).order_by('-dt')
+        lista_eventos = []
+        evento = {}
+        for item in query_eventos:
+            evento = {
+                'id': item.id,
+                'lng': item.lng,
+                'lat': item.lat,
+                'punto_red': item.punto_red,
+                'evento': item.evento,
+                'vel': item.vel,
+                'alarma': item.alarma,
+            }
+            lista_eventos.append(evento)
+            
+        return lista_eventos
+
+        
 
 class DatosSeleccionAlarmas ():
     def __init__(self):
