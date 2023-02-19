@@ -69,31 +69,40 @@ class NoticiaSerializer(serializers.ModelSerializer):
         model = Noticia
 
 
-class DatosCirculacion ():
-    def __init__(self, cursor):
+class DatosCirculacionesAmpliadas ():
+    def __init__(self, id_vehiculo):
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        velocidades = []
-        temperaturasA = []
-        temperaturasB =[]
-        aax = []
-        aay = []
-        aaz = []
-        abx = []
-        aby = []
-        abz = []
+        # Sacamos las últimas x (5) circulaciones de ese vehículo
+        lista_circulaciones = CirculacionVehiculo.objects.filter(vehiculo = id_vehiculo).order_by('-id')[:5]
+        circulaciones_ampliadas = []
+        circulacion_ampliada = {}
+        for circulacion in lista_circulaciones:
+            circulacion_ampliada['id'] = circulacion.id
+            circulacion_ampliada['abierta'] = circulacion.abierta
+            circulacion_ampliada['dt_inicial'] = circulacion.dt_inicial
+            circulacion_ampliada['lat_inicial'] =circulacion.lat_inicial
+            circulacion_ampliada['lng_inicial'] =circulacion.lng_inicial
+            circulacion_ampliada['punto_red_inicial'] =circulacion.punto_red_inicial
+            circulacion_ampliada['dt_final'] = circulacion.dt_final
+            circulacion_ampliada['lat_final'] =circulacion.lat_final
+            circulacion_ampliada['lng_final'] =circulacion.lng_final
+            circulacion_ampliada['punto_red_final'] =circulacion.punto_red_final
+            circulacion_ampliada['eventos'] = []
+            lista_eventos = EventoVehiculo.objects.filter(circulacion = circulacion.id).order_by('-dt')
+            evento = {}
+            for item in lista_eventos:
+                evento['id'] = item.id
+                evento['lng'] = item.lng
+                evento['lat'] = item.lat
+                evento['punto_red'] = item.punto_red
+                evento['evento'] = item.evento
+                evento['vel'] = item.vel
+                evento['alarma'] = item.alarma
+                circulacion_ampliada['eventos'].append(evento)
 
-        for doc in cursor:
-            velocidades.append(doc["vel"])
-            temperaturasA.append(doc["tempa"])
-            temperaturasB.append(doc["tempb"])
-            aax.extend(doc["aax"])
-            aay.extend(doc["aay"])
-            aaz.extend(doc["aaz"])
-            abx.extend(doc["abx"])
-            aby.extend(doc["aby"])
-            abz.extend(doc["abz"])
+            circulaciones_ampliadas.append(circulacion_ampliada)
         
-        self.data = {'vel':velocidades, 'tempa':temperaturasA, 'tempb':temperaturasB,'aax':aax,'aay':aay,'aaz':aaz,'abx':abx,'aby':aby,'abz':abz}
+        self.data = circulaciones_ampliadas
 
 class DatosSeleccionAlarmas ():
     def __init__(self):

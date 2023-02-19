@@ -127,34 +127,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # <LOCAL>
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-#DATABASES = {
-#    "default": {
-#        "ENGINE": "django.db.backends.postgresql_psycopg2",
-#        "USER": "fp",
-#        "PASSWORD": "",
-#        "NAME": "Trams-beta",
-#        "HOST": "localhost",
-#        "PORT": "",
-#    }
-#}
-#</LOCAL>
-# <AZURE>
-import os
-hostname = os.environ['DBHOST']
 DATABASES = {
-    'default': {
-        'NAME': os.environ['DBNAME'],
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': hostname + ".postgres.database.azure.com",
-        'USER': os.environ['DBUSER'],
-        'PASSWORD': os.environ['DBPASS'] 
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "USER": "fp",
+        "PASSWORD": "",
+        "NAME": "Trams-beta",
+        "HOST": "localhost",
+        "PORT": "",
     }
 }
-ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
-CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+#</LOCAL>
+# <AZURE>
+#import os
+#hostname = os.environ['DBHOST']
+#DATABASES = {
+#    'default': {
+#        'NAME': os.environ['DBNAME'],
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'HOST': hostname + ".postgres.database.azure.com",
+#        'USER': os.environ['DBUSER'],
+#        'PASSWORD': os.environ['DBPASS'] 
+#    }
+#}
+#ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+#CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 # </AZURE>
 
 
