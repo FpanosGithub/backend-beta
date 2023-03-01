@@ -69,17 +69,18 @@ class NoticiaSerializer(serializers.ModelSerializer):
         model = Noticia
 
 
-class DatosCirculacionesAmpliadas ():
+class DatosCirculacionesVehiculoAmpliadas ():
     def __init__(self, id_vehiculo):
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # Sacamos las últimas x (5) circulaciones de ese vehículo
-        lista_circulaciones = CirculacionVehiculo.objects.filter(vehiculo = id_vehiculo).order_by('-id')[:5]
+        # Sacamos las últimas x (15) circulaciones de ese vehículo
+        lista_circulaciones = CirculacionVehiculo.objects.filter(vehiculo = id_vehiculo).order_by('-id')[:15]
         circulaciones_ampliadas = []
         circulacion_ampliada = {}
         for circulacion in lista_circulaciones:
             circulacion_ampliada= {
                 'id': circulacion.id,
                 'abierta': circulacion.abierta,
+                'alarma': circulacion.alarma,
                 'dt_inicial': circulacion.dt_inicial,
                 'lat_inicial': circulacion.lat_inicial,
                 'lng_inicial': circulacion.lng_inicial,
@@ -101,6 +102,7 @@ class DatosCirculacionesAmpliadas ():
         for item in query_eventos:
             evento = {
                 'id': item.id,
+                'dt': item.dt,
                 'lng': item.lng,
                 'lat': item.lat,
                 'punto_red': item.punto_red,
@@ -112,7 +114,65 @@ class DatosCirculacionesAmpliadas ():
             
         return lista_eventos
 
-        
+class DatosCirculacionesEjeAmpliadas ():
+    def __init__(self, id_eje):
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # Sacamos las últimas x (15) circulaciones de ese vehículo
+        lista_circulaciones = CirculacionEje.objects.filter(eje = id_eje).order_by('-id')[:15]
+        circulaciones_ampliadas = []
+        circulacion_ampliada = {}
+        for circulacion in lista_circulaciones:
+            circulacion_ampliada= {
+                'id': circulacion.id,
+                'abierta': circulacion.abierta,
+                'alarma': circulacion.alarma,
+                'en_vehiculo': circulacion.en_vehiculo.matricula,
+                'dt_inicial': circulacion.dt_inicial,
+                'lat_inicial': circulacion.lat_inicial,
+                'lng_inicial': circulacion.lng_inicial,
+                'punto_red_inicial': circulacion.punto_red_inicial,
+                'dt_final': circulacion.dt_final,
+                'lat_final': circulacion.lat_final,
+                'lng_final': circulacion.lng_final,
+                'punto_red_final': circulacion.punto_red_final,
+                'eventos': self.DatosEventos(id_circulacion = circulacion.id)
+            }
+            circulaciones_ampliadas.append(circulacion_ampliada)
+
+        self.data = circulaciones_ampliadas
+    
+    def DatosEventos (self, id_circulacion):        
+        query_eventos = EventoEje.objects.filter(circulacion = id_circulacion).order_by('-dt')
+        lista_eventos = []
+        evento = {}
+        for item in query_eventos:
+            evento = {
+                'id': item.id,
+                'dt': item.dt,
+                'lng': item.lng,
+                'lat': item.lat,
+                'punto_red': item.punto_red,
+                'evento': item.evento,
+                'alarma': item.alarma,
+                'vel': item.vel,
+                'tempa': item.tempa,
+                'tempb': item.tempb,
+                'axMa': item.axMa,
+                'axMb': item.axMb,
+                'ayMa': item.ayMa,
+                'ayMb': item.ayMb,
+                'azMa': item.azMa,
+                'azMb': item.azMb,
+                'axmeda': item.axmeda,
+                'axmedb': item.axmedb,
+                'aymeda': item.aymeda,
+                'aymedb': item.aymedb,
+                'azmeda': item.azmeda,
+                'azmedb': item.azmedb,
+            }
+            lista_eventos.append(evento)
+            
+        return lista_eventos      
 
 class DatosSeleccionAlarmas ():
     def __init__(self):

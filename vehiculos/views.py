@@ -27,6 +27,24 @@ def DetalleEje(request, id=1):
     serializer = EjeSerializer(eje, many= False)
     return Response(serializer.data)
 
+# vehiculos/ejes920
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Seleccion920(request):
+    ejes = Eje.objects.filter(tipo_eje__codigo__contains='920')
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    serializer = EjeSerializer(ejes, many= True)
+    return Response(serializer.data)
+
+# vehiculos/ejes760
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Seleccion760(request):
+    ejes = Eje.objects.filter(tipo_eje__codigo__contains='760')
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    serializer = EjeSerializer(ejes, many= True)
+    return Response(serializer.data)
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # VEHÍCULOS
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

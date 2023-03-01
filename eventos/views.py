@@ -4,8 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 
 # Importaciones de distintas apps
 # eventos
-from eventos.models import CirculacionVehiculo, EventoVehiculo
-from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSerializer, DatosCirculacionesAmpliadas
+from eventos.models import CirculacionVehiculo, EventoVehiculo, CirculacionEje, EventoEje
+from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSerializer, DatosCirculacionesVehiculoAmpliadas
+from eventos.serializers import CirculacionEjeSerializer, EventoEjeSerializer, DatosCirculacionesEjeAmpliadas
 
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +18,7 @@ from eventos.serializers import EventoVehiculoSerializer, CirculacionVehiculoSer
 @permission_classes([AllowAny])
 def CirculacionesVehiculo(request, id=1): 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    circulaciones = CirculacionVehiculo.objects.filter(vehiculo = id).order_by('-id')
+    circulaciones = CirculacionVehiculo.objects.filter(vehiculo = id).order_by('-id')[:15]
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     serializer = CirculacionVehiculoSerializer(circulaciones, many= True)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -38,7 +39,42 @@ def EventosCirculacionVehiculo(request, id=1):
 @permission_classes([AllowAny])
 def CirculacionesVehiculoAmpliadas(request, id=1): 
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    serializer = DatosCirculacionesAmpliadas(id_vehiculo = id)
+    serializer = DatosCirculacionesVehiculoAmpliadas(id_vehiculo = id)
+    print(serializer.data)
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    return Response(serializer.data)
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# EJES
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# eventos/circulaciones_eje
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def CirculacionesEje(request, id=1): 
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    circulaciones = CirculacionEje.objects.filter(eje = id).order_by('-id')[:15]
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    serializer = CirculacionEjeSerializer(circulaciones, many= True)
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    return Response(serializer.data)
+
+# api/eventos_circulacion_vehiculo
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def EventosCirculacionEje(request, id=1): 
+    eventos = EventoEje.objects.filter(circulacion = id).order_by('-dt')
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    serializer = EventoEjeSerializer(eventos, many= True)
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    return Response(serializer.data)
+
+# eventos/circulaciones_vehiculo_ampliadas
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def CirculacionesEjeAmpliadas(request, id=1): 
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    serializer = DatosCirculacionesEjeAmpliadas(id_eje = id)
     print(serializer.data)
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return Response(serializer.data)

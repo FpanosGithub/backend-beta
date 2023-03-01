@@ -77,9 +77,14 @@ class Eje(models.Model):
     fecha_proximo_mantenimiento = models.DateField(null=True, blank=True)    # cuando será el proximo mantenimiento
     km_proximo_mant = models.FloatField(default=0)
     nivel_proximo_mant = models.IntegerField(default=0)
-    #Situación operativa
+    # Vehículo donde va el eje
     vehiculo = models.ForeignKey(Vehiculo, related_name='ejes', on_delete=models.RESTRICT, null=True, blank=True)
+    # Estado del eje - DEPRECATED - Eliminar cuando se pueda
     estado_servicio = models.CharField(max_length=15, choices = [('BAJA','BAJA'),('CIRCULANDO','CIRCULANDO'),('PARADO','PARADO'),('MANTENIMIENTO','MANTENIMIENTO')], default = 'PARADO')
+    # Variables estado eje
+    en_servicio = models.BooleanField(default=True)
+    en_mantenimiento = models.BooleanField(default=True)
+    en_circulacion = models.BooleanField(default=True)
     observaciones_servicio = models.CharField(max_length=80, default = 'sin observaciones')
     alarma_temp = models.BooleanField(default=False)
     alarma_aceleraciones = models.BooleanField(default=False)
