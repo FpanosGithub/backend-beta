@@ -2,7 +2,7 @@ from django.urls import path
 # Generales
 # Vehiculos
 from eventos.views import CirculacionesVehiculo, EventosCirculacionVehiculo, CirculacionesVehiculoAmpliadas, CirculacionesEje
-from eventos.views import CirculacionesEje, EventosCirculacionEje, CirculacionesEjeAmpliadas
+from eventos.views import CirculacionesEje, EventosCirculacionEje, CirculacionesEjeAmpliadas, CambiosEje
 
 urlpatterns = [
     # VEHÍCULOS 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('circulaciones_eje/<int:id>/', CirculacionesEje, name = 'circulaciones_eje'),
     path('eventos_circulacion_eje/<int:id>/', EventosCirculacionEje, name = 'eventos_circulacion_eje'),
     path('circulaciones_eje_ampliadas/<int:id>/', CirculacionesEjeAmpliadas, name = 'circulaciones_eje_ampliadas'),
+    path('cambios_eje/<int:id>/', CambiosEje, name = 'cambios_eje'),
 ]
